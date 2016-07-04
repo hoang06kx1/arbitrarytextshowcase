@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lps.setMargins(margin, margin, margin, margin);
 
         ViewTarget target = new ViewTarget(R.id.buttonBlocked, this);
+
         sv = new ShowcaseView.Builder(this)
                 .withMaterialShowcase()
                 .setTarget(target)
