@@ -1,10 +1,11 @@
 package com.github.amlcurran.showcaseview.sample.ui.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.amlcurran.showcaseview.ShowcaseView;
@@ -12,20 +13,19 @@ import com.github.amlcurran.showcaseview.ShowcaseView;
 /**
  * Created by Hoang on 7/4/2016.
  */
-public class ArbitraryTitleShowcase extends ShowcaseView {
+public class ArbitraryShowcaseView extends ShowcaseView {
     private Point mTargetPosition;
     private int[] mTargetDimension;
-    private View mViewTarget;
     private int mTextMargin = 0;
-    private CharSequence mText;
+    private CharSequence mArbitraryText;
 
     private int mTextPosition = ShowcaseView.UNDEFINED;
 
-    protected ArbitraryTitleShowcase(Context context, boolean newStyle) {
+    protected ArbitraryShowcaseView(Context context, boolean newStyle) {
         super(context, newStyle);
     }
 
-    protected ArbitraryTitleShowcase(Context context, AttributeSet attrs, int defStyle, boolean newStyle) {
+    protected ArbitraryShowcaseView(Context context, AttributeSet attrs, int defStyle, boolean newStyle) {
         super(context, attrs, defStyle, newStyle);
     }
 
@@ -38,55 +38,51 @@ public class ArbitraryTitleShowcase extends ShowcaseView {
         mTextPosition = textPosition;
     }
 
-    public void setTargetForPositioningText(View view) {
-        mViewTarget = view;
+    public void setArbitraryTarget(final ArbitraryTarget target) {
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                int[] location = new int[2];
-                mViewTarget.getLocationInWindow(location);
-                mTargetDimension[0] = mViewTarget.getWidth();
-                mTargetDimension[1] = mViewTarget.getHeight();
-                int x = location[0] + mTargetDimension[0] / 2;
-                int y = location[1] + mTargetDimension[1] / 2;
-                mTargetPosition = new Point(x,y);
+                mTargetDimension = target.getDimension();
+                mTargetPosition = target.getPoint();
             }
         }, 100);
     }
 
-    public void setNewTextContent(CharSequence charSequence, int marginFromTarget) {
-        this.setContentTitle("");
-        this.setContentText("");
-        if (charSequence != null) {
-            mText = charSequence.toString();
-        }
-        if (marginFromTarget != 0) {
-            mTextMargin = dpToPx(marginFromTarget);
-        }
-
-    }
-
-    public ArbitraryTitleShowcase buildTextContent() {
-        if (mText == null || mTargetPosition == null || mTargetDimension == null) {
+    public void buildArbitraryText() {
+        if (mArbitraryText == null || mTargetPosition == null || mTargetDimension == null) {
             throw new IllegalStateException("The target view is not set!");
         }
 
         switch (mTextPosition) {
             case ShowcaseView.ABOVE_SHOWCASE:
-                int targetPositionTop = mTargetPosition.y - (mTargetDimension[1]/2);
-                int textTopMargin = targetPositionTop - getTextViewDimension(mText.toString())[1] - mTextMargin;
-                addTextViewToShowCase(tv);
+                int targetTopPosition = mTargetPosition.y - (mTargetDimension[1]/2);
+                int textBottomPosition = targetTopPosition - mTextMargin;
+                int textHeight = getTextViewDimension(mArbitraryText.toString())[1];
+                addTextViewToShowCase(0, textBottomPosition - textHeight, 0, 0);
                 break;
             case ShowcaseView.BELOW_SHOWCASE:
                 break;
             case ShowcaseView.LEFT_OF_SHOWCASE:
                 break;
         }
-        mText
     }
 
-    private void addTextViewToShowCase(TextView tv, int textPosition, int left, int right) {
+    public void addTextViewToShowCase(int marginLeft, int marginTop, int marginRight, int marginBottom) {
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(marginLeft, marginTop, marginRight, marginBottom);
+        lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        TextView tv = getTextView(mArbitraryText.toString());
+        tv.setLayoutParams(lp);
+        this.addView(tv);
+    }
 
+    public void setArbitraryContentText(CharSequence charSequence, int marginFromTarget) {
+        this.setContentTitle("");
+        this.setContentText("");
+        if (charSequence != null) {
+            mArbitraryText = charSequence.toString();
+        }
+        mTextMargin = dpToPx(marginFromTarget);
     }
 
     protected TextView getTextView(String content) {
@@ -114,6 +110,18 @@ public class ArbitraryTitleShowcase extends ShowcaseView {
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
         int dp = Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
         return dp;
+    }
+
+    public static class Builder extends ShowcaseView.Builder {
+
+        public Builder(Activity activity) {
+            super(activity);
+        }
+
+        public Builder(Activity activity, boolean useNewStyle) {
+            super(activity, useNewStyle);
+            this.showCaseView
+        }
     }
 
 }

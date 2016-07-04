@@ -4,20 +4,15 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Layout;
 import android.text.TextPaint;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.espian.showcaseview.sample.R;
-import com.github.amlcurran.showcaseview.ShowcaseView;
-import com.github.amlcurran.showcaseview.targets.ViewTarget;
+import com.github.amlcurran.showcaseview.sample.ui.view.ArbitraryShowcaseView;
+import com.github.amlcurran.showcaseview.sample.ui.view.ArbitraryViewTarget;
 
 public class CustomTextActivity extends Activity {
 
@@ -41,7 +36,13 @@ public class CustomTextActivity extends Activity {
         title.setColor(Color.YELLOW);
         title.setTypeface(Typeface.createFromAsset(getAssets(), "RobotoSlab-Regular.ttf"));
 
-        final ViewTarget vt = new ViewTarget(R.id.imageView, this);
+        // final ViewTarget vt = new ViewTarget(R.id.imageView, this);
+        ArbitraryViewTarget vt = new ArbitraryViewTarget(R.id.imageView, this);
+        final ArbitraryShowcaseView showcaseView = new ArbitraryShowcaseView.Builder(this)
+                .withNewStyleShowcase()
+                .setAr
+
+        /*
         final ShowcaseView showcaseView = new ShowcaseView.Builder(this)
                 .withNewStyleShowcase()
                 .setTarget(vt)
@@ -51,6 +52,7 @@ public class CustomTextActivity extends Activity {
                 // .setContentTitlePaint(title)
                 .build();
 
+        /*
         final TextView tv = new TextView(this);
         showcaseView.postDelayed(new Runnable() {
             @Override
@@ -64,7 +66,7 @@ public class CustomTextActivity extends Activity {
                 showcaseView.addView(tv);
             }
         },100);
-
+        */
 
 
         // showcaseView.setDetailTextAlignment(Layout.Alignment.ALIGN_CENTER);
