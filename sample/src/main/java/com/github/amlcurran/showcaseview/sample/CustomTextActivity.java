@@ -11,8 +11,10 @@ import android.text.TextPaint;
 import android.view.View;
 
 import com.espian.showcaseview.sample.R;
-import com.github.amlcurran.showcaseview.sample.ui.view.ArbitraryShowcaseView;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.sample.ui.view.ArbitraryTextWrapper;
 import com.github.amlcurran.showcaseview.sample.ui.view.ArbitraryViewTarget;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 
 public class CustomTextActivity extends Activity {
 
@@ -36,38 +38,37 @@ public class CustomTextActivity extends Activity {
         title.setColor(Color.YELLOW);
         title.setTypeface(Typeface.createFromAsset(getAssets(), "RobotoSlab-Regular.ttf"));
 
-        // final ViewTarget vt = new ViewTarget(R.id.imageView, this);
-        ArbitraryViewTarget vt = new ArbitraryViewTarget(R.id.imageView, this);
-        final ArbitraryShowcaseView showcaseView = new ArbitraryShowcaseView.Builder(this)
-                .withNewStyleShowcase()
-                .setAr
-
-        /*
+        final ViewTarget vt = new ViewTarget(R.id.imageView, this);
         final ShowcaseView showcaseView = new ShowcaseView.Builder(this)
                 .withNewStyleShowcase()
                 .setTarget(vt)
-                .setContentTextPaint(paint)
+                // .setContentTextPaint(paint)
                 // .setContentTitle(R.string.custom_text_painting_title)
                 // .setContentText(R.string.custom_text_painting_text)
                 // .setContentTitlePaint(title)
                 .build();
 
-        /*
-        final TextView tv = new TextView(this);
-        showcaseView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                tv.setText("lorem ipsum lorem ipsum lorem");
-                tv.setTextColor(Color.GREEN);
-                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-                lp.setMargins(vt.getPoint().x, vt.getPoint().y, 0, 0);
-                tv.setLayoutParams(lp);
-                showcaseView.addView(tv);
-            }
-        },100);
-        */
-
+        ArbitraryViewTarget avt = new ArbitraryViewTarget(R.id.imageView, this);
+        new ArbitraryTextWrapper(this, showcaseView)
+                .forceTextPosition(ShowcaseView.RIGHT_OF_SHOWCASE)
+                .setArbitraryTarget(avt)
+                .setArbitraryContentText("a a a a a a a a a  a a a a a a a a a  a a a a a a a a a a a a a a", 50)
+                .buildArbitraryText();
+        new ArbitraryTextWrapper(this, showcaseView)
+                .forceTextPosition(ShowcaseView.LEFT_OF_SHOWCASE)
+                .setArbitraryTarget(avt)
+                .setArbitraryContentText("a a a a a a a a a  a a a a a a a a a  a a a a a a a a a a a a a a", 50)
+                .buildArbitraryText();
+        new ArbitraryTextWrapper(this, showcaseView)
+                .forceTextPosition(ShowcaseView.ABOVE_SHOWCASE)
+                .setArbitraryTarget(avt)
+                .setArbitraryContentText("a a a a a a a a a  a a a a a a a a a  a a a a a a a a a a a a a a", 50)
+                .buildArbitraryText();
+        new ArbitraryTextWrapper(this, showcaseView)
+                .forceTextPosition(ShowcaseView.BELOW_SHOWCASE)
+                .setArbitraryTarget(avt)
+                .setArbitraryContentText("a a a a a a a a a  a a a a a a a a a  a a a a a a a a a a a a a a", 50)
+                .buildArbitraryText();
 
         // showcaseView.setDetailTextAlignment(Layout.Alignment.ALIGN_CENTER);
         // showcaseView.setTitleTextAlignment(Layout.Alignment.ALIGN_CENTER);

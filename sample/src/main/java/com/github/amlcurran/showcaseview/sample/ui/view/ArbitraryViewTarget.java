@@ -30,8 +30,9 @@ public class ArbitraryViewTarget extends ViewTarget implements ArbitraryTarget {
     @Override
     public int[] getDimension() {
         int[] dimension = new int[2];
-        dimension[0] = mView.getWidth();
-        dimension[1] = mView.getHeight();
+        mView.measure(0,0);
+        dimension[0] = mView.getMeasuredWidth();
+        dimension[1] = mView.getMeasuredWidth();
         return dimension;
     }
 }
